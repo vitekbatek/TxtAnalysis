@@ -7,10 +7,8 @@ from Lib.GetFilenames import getnames
 #Get data
 now = datetime.datetime.now()
 
-
-
 #Write logfile
-with open(str(os.getcwd())+"/checklogs.txt", "w") as filelogs:
+with open(str(os.getcwd())+'/checklogs.txt', 'w') as filelogs:
     filelogs.write(
         'Проверка текстовых файлов НПРЧ на дублирование значений по столбцам\nДата выполнения: ' + now.strftime(
             "%d-%m-%Y %H:%M") + '\n')
@@ -42,14 +40,18 @@ with open(str(os.getcwd())+"/checklogs.txt", "w") as filelogs:
 
 
     filenames = getnames(path)
+    filenames.remove(str(path) + '\\checklogs.txt')
+
+    filelogs.write('Файлов для проверки: ' + str(len(filenames)) + '\n')
+    print('Файлов для проверки: ' + str(len(filenames)) )
 
     if columns == []:
         filelogs.write('   Столбцы для проверки не введены\n')
         print('Столбцы для проверки не введены')
         exit(0)
     else:
-        filelogs.write('Столбцы для проверки:' + str(columns) + '\n')
-        print('Столбцы для проверки:' + str(columns))
+        filelogs.write('Столбцы для проверки: ' + str(columns).strip('[]') + '\n')
+        print('Столбцы для проверки: ' + str(columns).strip('[]'))
     print('Проверка:', end=' ')
 
     i = 6
