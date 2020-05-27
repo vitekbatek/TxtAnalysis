@@ -19,7 +19,7 @@ if not os.path.exists(path):
     exit(0)
 
 #Write logfile
-with open("../checklogs.txt", "w") as filelogs:
+with open(str(os.getcwd())+"/checklogs.txt", "w") as filelogs:
 
     filenames = getnames(path)
     filelogs.write("Проверка файлов. Дата выполнения " + now.strftime("%d-%m-%Y %H:%M") + ':\n')
@@ -37,16 +37,23 @@ with open("../checklogs.txt", "w") as filelogs:
         filelogs.write("Столбцы для проерки не введены\n")
         print("Столбцы для проерки не введены\n")
         exit(0)
+    print('Проверка:', end=' ')
 
+    i = 6
     for filename in filenames:
+        print('.', end=' ')
+        if i%29 == 0:
+            i = 0
+            print('')
+        i+=1
         # Read Lines to List
-        print(filename)
+        #print(filename)
         listlines = read(str(filename))
         filelogs.write(filename + '\n')
 
         # Check List
         #columns = [2, 3]
         listerr = check(listlines, columns)
-        print("   " + str(listerr))
+        #print("   " + str(listerr))
         for err in reversed(listerr):
             filelogs.write(err + '\n')
