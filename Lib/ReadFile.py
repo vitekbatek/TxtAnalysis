@@ -6,4 +6,5 @@ def read(input_file_txt):
         listlines.append("")
         listlines[i] = line.replace(":", ";").split(";")
         i = i+1
+    file.close()
     return listlines

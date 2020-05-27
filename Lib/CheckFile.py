@@ -1,17 +1,34 @@
-
-def check(arr, Columns):
-    ListErr = []
+def check(listlines, columns):
+    listerr = []
     i = 0
-    err = False
-    while i < (3600 - 1):
-        for column in Columns:
-            if str(arr[i][int(column)-1]) != "" and str(arr[i + 1][int(column)-1]) != "":
-                err_line = ((float(arr[i][int(column)-1]) - float(arr[i + 1][int(column)-1])) == 0)
-            if err_line:
-                ListErr.append("Столбец: " + str(int(column)) + " Строка: " + str(i) + "<->" + str(i + 1))
-        i = i + 1
-    if len(ListErr) == 0:
-        print("   Ошибок нет")
+    errfile = False
+
+    if len(listlines) != 3600:
+        listerr.append("   Формат файла задан неверно: кол-во строк не соответствует 3600 и равно " + str(len(listlines)))
+        errfile = True
     else:
-        print("   Кол-во ошибок: " + str(len(ListErr)))
-    return ListErr
+        for i in range(3600):
+            try:
+                for column in columns:
+                    temp = str(listlines[i][int(column) - 1])
+            except IndexError:
+                listerr.append("   Формат файла задан неверно: невозможно преобразовать данные в строке №" + str(i+1))
+                errfile = True
+    i=0
+    if not errfile:
+        for i in range(len(listlines)):
+            if i == len(listlines)-1:
+                for column in columns:
+                    if str(listlines[i][int(column) - 1]) == "":
+                        listerr.append("   Строка: " + str(i+1) + " Столбец: " + str(int(column)) + " - нет данных")
+            else:
+                for column in columns:
+                    if str(listlines[i][int(column)-1]) != "" and (str(listlines[i][int(column)-1]) == str(listlines[i + 1][int(column)-1])):
+                        listerr.append("   Строка: " + str(i+1) + " и " + str(i+2) + " Столбец: " + str(int(column)) + " - значения равны")
+                    if str(listlines[i][int(column)-1]) == "":
+                        listerr.append("   Строка: " + str(i+1) + " Столбец: " + str(int(column)) + " - нет данных")
+        if len(listerr) == 0:
+            listerr.append("   Ошибок в строках нет")
+        else:
+            listerr.append("   Кол-во ошибок в строках: " + str(len(listerr)))
+    return listerr
