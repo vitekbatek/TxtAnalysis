@@ -69,3 +69,4 @@ with open(str(os.getcwd())+'/checklogs.txt', 'w') as filelogs:
         listerr = check(listlines, columns)
         for err in reversed(listerr):
             filelogs.write(err + '\n')
+    print('\nРезультаты проверки в файле: ' + str(path) + '\\checklogs.txt')
